@@ -1,6 +1,6 @@
 # Home Service Robot
 
-The final project of the Udacity Robotic Software Engineer Nanodegree.
+The final project of the Udacity Robotics Software Engineer Nanodegree.
 
 ![Navigation demo](https://github.com/grygoryant/udacity_rse_p5/blob/master/img/navigation.gif "Navigation demo")
 
