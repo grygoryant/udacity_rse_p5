@@ -18,11 +18,11 @@ xterm -e "cd ~/catkin_ws/ &&
 source devel/setup.bash &&
 roslaunch turtlebot_rviz_launchers view_navigation.launch" &
 
-sleep 15
+sleep 25
 
 xterm -e "cd ~/catkin_ws/ &&
 source devel/setup.bash &&
 rosparam load ~/catkin_ws/src/pick_objects/param/locations.yaml &&
-rosrun pick_objects pick_objects_dummy &&
+rosrun add_markers add_markers_dummy &&
 echo Press any key... &&
 read key" &

@@ -1,7 +1,6 @@
 #include <ros/ros.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
-#include <std_msgs/Char.h>
 
 // Define a client for to send goal requests to the move_base server through a SimpleActionClient
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
@@ -13,24 +12,12 @@ int main(int argc, char** argv){
     //tell the action client that we want to spin a thread by default
     MoveBaseClient ac("move_base", true);
     ros::NodeHandle node_handle;
-    ros::Publisher robot_state_pub = node_handle.advertise<std_msgs::Char>("robot_state", 1);
-    std_msgs::Char state_msg;
     
     // Wait 5 sec for move_base action server to come up
     while(!ac.waitForServer(ros::Duration(5.0))){
         ROS_INFO("Waiting for the move_base action server to come up");
     }
     
-    while (robot_state_pub.getNumSubscribers() < 1) {
-        if (!ros::ok()) {
-            return 0;
-        }
-        ROS_WARN_ONCE("Waiting for subscribers...");
-        sleep(1);
-    }
-    
-    ROS_INFO("Gotcha!");
-
     move_base_msgs::MoveBaseGoal goal;
 
     // set up the frame parameters
@@ -55,8 +42,6 @@ int main(int argc, char** argv){
     // Check if the robot reached its goal
     if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
         ROS_INFO("Reached pick-up location");
-        state_msg.data = 'p';
-        robot_state_pub.publish(state_msg);
         ros::Duration(5.0).sleep();
     }
     else {
@@ -83,8 +68,6 @@ int main(int argc, char** argv){
     // Check if the robot reached its goal
     if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
         ROS_INFO("Reached drop-off location");
-        state_msg.data = 'g';
-        robot_state_pub.publish(state_msg);
     }
     else {
         ROS_INFO("The base failed to move");

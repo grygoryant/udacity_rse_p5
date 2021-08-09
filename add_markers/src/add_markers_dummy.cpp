@@ -4,31 +4,12 @@
 
 char robot_state = 'h';
 
-void robot_state_cbk(const std_msgs::Char::ConstPtr& msg) {
-    robot_state = msg->data;
-    ROS_INFO("New state: %c", robot_state);
-    return;
-}
-
 int main( int argc, char** argv )
 {
     ros::init(argc, argv, "add_markers");
     ros::NodeHandle node_handle;
-    ros::Rate r(10);
+    ros::Rate r(1);
     ros::Publisher marker_pub = node_handle.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-    
-    ros::Subscriber robot_state_sub = node_handle.subscribe("robot_state", 1, robot_state_cbk);
-    bool goal_reached = false;
-    
-    while (robot_state_sub.getNumPublishers() < 1) {
-        if (!ros::ok()) {  
-            return 0;
-        }
-        ROS_WARN_ONCE("Waiting for robot_state publisher");
-        sleep(1);
-    }
-    
-    ROS_INFO("Found robot_state publisher");
 
     uint32_t shape = visualization_msgs::Marker::CUBE;
 
@@ -65,7 +46,7 @@ int main( int argc, char** argv )
         
         switch(robot_state) {
         case 'h':
-            //ROS_INFO("Heading to pick-up location");
+            ROS_INFO("Heading to pick-up location");
             // Set the marker action.  Options are ADD, DELETE, and new in ROS Indigo: 3 (DELETEALL)
             marker.action = visualization_msgs::Marker::ADD;
 
@@ -77,17 +58,19 @@ int main( int argc, char** argv )
             node_handle.getParam("/pick_up/qy", marker.pose.orientation.y);
             node_handle.getParam("/pick_up/qz", marker.pose.orientation.z);
             node_handle.getParam("/pick_up/qw", marker.pose.orientation.w);
+            robot_state = 'p';
+            ros::Duration(5.0).sleep();
             break;
             
         case 'p':
-            //ROS_INFO("Hiding pick-up location");
+            ROS_INFO("Hiding pick-up location");
             marker.action = visualization_msgs::Marker::DELETE;
-            //ros::Duration(5.0).sleep();
-
+            robot_state = 'g';
+            ros::Duration(5.0).sleep();
             break;
             
         case 'g':
-            //ROS_INFO("Showing drop-off location");
+            ROS_INFO("Showing drop-off location");
             // Set the marker action.  Options are ADD, DELETE, and new in ROS Indigo: 3 (DELETEALL)
             marker.action = visualization_msgs::Marker::ADD;
 
@@ -99,8 +82,6 @@ int main( int argc, char** argv )
             node_handle.getParam("/drop_off/qy", marker.pose.orientation.y);
             node_handle.getParam("/drop_off/qz", marker.pose.orientation.z);
             node_handle.getParam("/drop_off/qw", marker.pose.orientation.w);
-            goal_reached = true;
-            
             break;
         
         default: break;
@@ -115,11 +96,10 @@ int main( int argc, char** argv )
         }
         marker_pub.publish(marker);
         
-        if(goal_reached) {
-            ROS_INFO("Payload dropped off");
+        if(robot_state == 'g') {
             return 0;
         }
-        
+
         r.sleep();
     }
 }
