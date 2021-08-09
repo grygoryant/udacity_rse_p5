@@ -2,21 +2,21 @@
 
 xterm -e "cd ~/catkin_ws/ &&
 source devel/setup.bash &&
-export TURTLEBOT_GAZEBO_WORLD_FILE="~/catkin_ws/src/map/my_world.world" &&
+export TURTLEBOT_GAZEBO_WORLD_FILE="$(pwd)/src/map/my_world.world" &&
 roslaunch turtlebot_gazebo turtlebot_world.launch" & 
 
 sleep 10
 
 xterm -e "cd ~/catkin_ws/ &&
 source devel/setup.bash &&
-export TURTLEBOT_GAZEBO_MAP_FILE="~/catkin_ws/src/map/env_map.yaml" &&
+export TURTLEBOT_GAZEBO_MAP_FILE="$(pwd)/src/map/env_map.yaml" &&
 roslaunch turtlebot_gazebo amcl_demo.launch" &
 
 sleep 10
 
 xterm -e "cd ~/catkin_ws/ &&
 source devel/setup.bash &&
-export HOME_SERVICE_RVIZ_CONF="~/catkin_ws/src/rvizConfig/home_service_conf.rviz" &&
+export HOME_SERVICE_RVIZ_CONF="$(pwd)/src/rvizConfig/home_service_conf.rviz" &&
 roslaunch add_markers home_service_navigation.launch" &
 
 sleep 20

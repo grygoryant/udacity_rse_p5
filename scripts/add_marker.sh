@@ -2,14 +2,14 @@
 
 xterm -e "cd ~/catkin_ws/ &&
 source devel/setup.bash &&
-export TURTLEBOT_GAZEBO_WORLD_FILE="~/catkin_ws/src/map/my_world.world" &&
+export TURTLEBOT_GAZEBO_WORLD_FILE="$(pwd)/src/map/my_world.world" &&
 roslaunch turtlebot_gazebo turtlebot_world.launch" & 
 
 sleep 10
 
 xterm -e "cd ~/catkin_ws/ &&
 source devel/setup.bash &&
-export TURTLEBOT_GAZEBO_MAP_FILE="~/catkin_ws/src/map/env_map.yaml" &&
+export TURTLEBOT_GAZEBO_MAP_FILE="$(pwd)/src/map/env_map.yaml" &&
 roslaunch turtlebot_gazebo amcl_demo.launch" &
 
 sleep 5
