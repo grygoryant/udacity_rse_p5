@@ -1,6 +1,8 @@
 # Home Service Robot
 
-The final project of the Udacity Robotic Software Engineer Nanodegree.
+The final project of the Udacity Robotics Software Engineer Nanodegree.
+
+![Navigation demo](https://github.com/grygoryant/udacity_rse_p5/blob/master/img/navigation.gif "Navigation demo")
 
 The goal of this project is to implement home service robot using ROS, that will be able to pick up and drop off the payload in the given locations of the environment.
 In order to achieve that, several tasks should be completed:
