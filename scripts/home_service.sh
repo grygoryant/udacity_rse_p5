@@ -16,7 +16,8 @@ sleep 10
 
 xterm -e "cd ~/catkin_ws/ &&
 source devel/setup.bash &&
-roslaunch turtlebot_rviz_launchers home_service_navigation.launch" &
+export HOME_SERVICE_RVIZ_CONF="~/catkin_ws/src/rvizConfig/home_service_conf.rviz" &&
+roslaunch add_markers home_service_navigation.launch" &
 
 sleep 20
 
