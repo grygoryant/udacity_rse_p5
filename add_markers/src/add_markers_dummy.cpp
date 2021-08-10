@@ -2,7 +2,7 @@
 #include <visualization_msgs/Marker.h>
 #include <std_msgs/Char.h>
 
-char robot_state = 'h';
+char robot_state = 'h'; // h -> p -> g -> d
 
 int main( int argc, char** argv )
 {
@@ -59,17 +59,17 @@ int main( int argc, char** argv )
             node_handle.getParam("/pick_up/qz", marker.pose.orientation.z);
             node_handle.getParam("/pick_up/qw", marker.pose.orientation.w);
             robot_state = 'p';
-            ros::Duration(5.0).sleep();
             break;
             
         case 'p':
+            ros::Duration(5.0).sleep();
             ROS_INFO("Hiding pick-up location");
             marker.action = visualization_msgs::Marker::DELETE;
             robot_state = 'g';
-            ros::Duration(5.0).sleep();
             break;
             
         case 'g':
+            ros::Duration(5.0).sleep();
             ROS_INFO("Showing drop-off location");
             // Set the marker action.  Options are ADD, DELETE, and new in ROS Indigo: 3 (DELETEALL)
             marker.action = visualization_msgs::Marker::ADD;
@@ -82,6 +82,7 @@ int main( int argc, char** argv )
             node_handle.getParam("/drop_off/qy", marker.pose.orientation.y);
             node_handle.getParam("/drop_off/qz", marker.pose.orientation.z);
             node_handle.getParam("/drop_off/qw", marker.pose.orientation.w);
+            robot_state = 'd';
             break;
         
         default: break;
@@ -95,10 +96,6 @@ int main( int argc, char** argv )
             sleep(1);
         }
         marker_pub.publish(marker);
-        
-        if(robot_state == 'g') {
-            return 0;
-        }
 
         r.sleep();
     }

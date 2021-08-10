@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+. ./devel/setup.bash
 
 xterm -e "source devel/setup.bash &&
 export TURTLEBOT_GAZEBO_WORLD_FILE="$(pwd)/src/map/my_world.world" &&
@@ -27,6 +29,7 @@ read key" &
 sleep 2
 
 xterm -e "source devel/setup.bash &&
+rosparam load $(rospack find pick_objects)/param/locations.yaml &&
 rosrun pick_objects pick_objects;
 echo Press any key... &&
 read key" &

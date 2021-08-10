@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+. ./devel/setup.bash
 
 xterm -e "source devel/setup.bash &&
 export TURTLEBOT_GAZEBO_WORLD_FILE="$(pwd)/src/map/my_world.world" &&
