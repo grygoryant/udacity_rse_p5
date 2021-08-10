@@ -1,14 +1,12 @@
 #!/bin/sh
 
-xterm -e "cd ~/catkin_ws/ &&
-source devel/setup.bash &&
+xterm -e "source devel/setup.bash &&
 export TURTLEBOT_GAZEBO_WORLD_FILE="$(pwd)/src/map/my_world.world" &&
 roslaunch turtlebot_gazebo turtlebot_world.launch" & 
 
 sleep 10
 
-xterm -e "cd ~/catkin_ws/ &&
-source devel/setup.bash &&
+xterm -e "source devel/setup.bash &&
 rosparam set /slam_gmapping/iterations 10 &&
 rosparam set /slam_gmapping/linearUpdate 0.05 &&
 rosparam set /slam_gmapping/angularUpdate 0.1 &&
@@ -21,12 +19,10 @@ roslaunch turtlebot_gazebo gmapping_demo.launch" &
 
 sleep 5
 
-xterm -e "cd ~/catkin_ws/ &&
-source devel/setup.bash &&
+xterm -e "source devel/setup.bash &&
 roslaunch turtlebot_rviz_launchers view_navigation.launch" &
 
 sleep 10
 
-xterm -e "cd ~/catkin_ws/ &&
-source devel/setup.bash &&
+xterm -e "source devel/setup.bash &&
 roslaunch turtlebot_teleop keyboard_teleop.launch" &
